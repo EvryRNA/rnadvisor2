@@ -2,3 +2,4 @@ helper
 .dockerignore
 .__pyache__
 .DS_Store
+data
