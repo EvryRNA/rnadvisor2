@@ -151,8 +151,8 @@ TEXT_BY_FIGURES = {
     "where 1 is the best and 0 the worst. The decreasing scores are reversed to be increasing.",
     "Polar plot": "Polar plot for the INF metric for each model. "
     "It considers the different type of interactions possible in the RNA structure: stacking, Watson-Crick, non-Watson-Crick.",
-    "MCQ per position": "MCQ value for each position of the sequence for each model.",
-    "MCQ per angle": "Line polar plot with the MCQ value for each angle for each model. The lower the MCQ value, the better the model.",
+    "TB-MCQ per position": "TB-MCQ value for each position of the sequence for each model.",
+    "TB-MCQ per angle": "Line polar plot with the TB-MCQ value for each angle for each model. The lower the MCQ value, the better the model.",
     "Time plot": "Time plot for the different metrics/scoring functions used. It shows the time taken to compute the score for all the models.",
     "Results": "Obtained dataframe with the different metrics/scoring functions for each model. Methods are sorted by RMSD.",
 }

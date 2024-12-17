@@ -83,8 +83,9 @@ class TBMCQ:
             for angle, value in {**mcq_per_angle, **mcq_per_angle_pt}.items():
                 out_mcq_per_angle[angle] = out_mcq_per_angle.get(angle, []) + [value]
         names = [os.path.basename(name) for name in list_pdbs]
-        out = {name: mcq for name, mcq in zip(names, out_mcq_per_pos)}
-        df = pd.DataFrame({"Sequence": list(sequence[:-2]), **out})
+        seq = list(sequence[:-2])
+        out = {name: mcq[:len(seq)] for name, mcq in zip(names, out_mcq_per_pos)}
+        df = pd.DataFrame({"Sequence": seq, **out})
         df_angle = pd.DataFrame(out_mcq_per_angle, index=names)
         return df, df_angle
 

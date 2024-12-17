@@ -300,11 +300,11 @@ if condition_to_show and st.session_state.show_results:
         st.write("## Results")
         st.write(TEXT_BY_FIGURES["Results"])
         st.dataframe(df)
-        mapping_titles = {"MCQ per position": "_tb_mcq.csv",
-                          "MCQ per angle": "_tb_mcq_per_angle.csv"}
+        mapping_titles = {"TB-MCQ per position": "_tb_mcq.csv",
+                          "TB-MCQ per angle": "_tb_mcq_per_angle.csv"}
         if is_only_scoring:
             fn_to_show = [BarHelperScoring, AnglesHelper, AnglesPerModel]
-            titles = ["Bar plot", "MCQ per position", "MCQ per angle"]
+            titles = ["Bar plot", "TB-MCQ per position", "TB-MCQ per angle"]
         else:
             fn_to_show = [BarHelper, PolarHelper]
             titles = ["Bar plot", "Polar plot"]
