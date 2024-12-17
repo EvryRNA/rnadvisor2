@@ -6,14 +6,13 @@ ALL_METRICS = [
     "MCQ",
     "CAD",
     "BARNABA",
-    "CLASH",
     "GDT-TS",
     "lDDT",
     "QS-SCORE",
     "LCS-TA",
-    "TM-score",
+    "TM-SCORE",
 ]
-QUICK_METRICS = ["RMSD", "P-VALUE", "INF", "DI", "BARNABA", "GDT-TS", "TM-score"]
+QUICK_METRICS = ["RMSD", "P-VALUE", "INF", "DI", "BARNABA", "GDT-TS", "TM-SCORE"]
 ALL_SCORING_FUNCTIONS = ["BARNABA", "DFIRE", "rsRNASP", "RASP", "TB-MCQ", "CGRNASP"]
 QUICK_SCORING_FUNCTIONS = ["DFIRE", "RASP", "TB-MCQ"]
 SUB_METRICS = [
@@ -31,7 +30,7 @@ SUB_METRICS = [
 # Higher is better
 ASC_METRICS = [
     "INF-ALL",
-    "TM-score",
+    "TM-SCORE",
     "GDT-TS",
     "lDDT",
     "INF-WC",

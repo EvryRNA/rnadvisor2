@@ -1,0 +1,7 @@
+numpy==1.26.4
+plotly==5.24.1
+scikit-learn==1.6.0
+scipy==1.14.1
+streamlit==1.41.1
+streamlit-molstar==0.4.21
+transformers==4.35.2

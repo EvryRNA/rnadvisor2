@@ -237,6 +237,17 @@ def get_metrics_scoring():
                 help="MCQ Threshold for the LCS-TA metric.",
                 key="threshold",
             )
+            st.write("MCQ method")
+            col1, col2, col3 = st.columns([3, 6, 3])
+            mcq_method = col2.selectbox(
+                "MCQ method",
+                ["Strict", "Moderate", "All"],
+                help="MCQ method to use. Strict: no comparison if any violation is found. "
+                     "Moderate: comparison without violations. "
+                     "All: comparison regardless of the violations.",
+                key="mcq_method",
+                index=2,
+            )
     return metrics, scoring_functions, normalisation
 
 
@@ -250,7 +261,10 @@ def get_submit_button():
                 align_structures(native_path, pred_paths, aligned_path)
                 st.session_state.show_align = True
             st.session_state.show_results = True
-            hp_params = {"mcq_threshold": st.session_state.get("threshold", 10)}
+            mcq_method = st.session_state.get("mcq_method", "All")
+            mcq_to_params = {"Strict": 0, "Moderate": 1, "All": 2}
+            hp_params = {"mcq_threshold": st.session_state.get("threshold", 10),
+                         "mcq_mode": mcq_to_params.get(mcq_method)}
             run_rnadvisor(native_path, pred_dir, out_path, metrics, scoring_functions, time_path,
                           log_path, hp_params)
     return submit

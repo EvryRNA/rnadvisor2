@@ -32,7 +32,7 @@ BACKBONE = [
 
 class RNATorsionBERTHelper:
     def __init__(self):
-        self.model_name = "lib/rna_torsionbert"
+        self.model_name = "sayby/rna_torsionbert"
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.model_name, trust_remote_code=True
         )
