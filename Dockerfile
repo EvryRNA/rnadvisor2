@@ -8,4 +8,4 @@ COPY tests/test_tf.py tests/test_tf.py
 RUN python3 tests/test_tf.py # To download the model weights for TB-MCQ
 EXPOSE 8501
 COPY . .
-ENTRYPOINT ["streamlit", "run", "Home.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run", "Home.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.baseUrlPath=/RNAdvisor"]
