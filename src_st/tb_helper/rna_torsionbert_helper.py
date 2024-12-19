@@ -1,12 +1,14 @@
 import transformers
+import torch
 from transformers import AutoModel, AutoTokenizer
 import numpy as np
 import pandas as pd
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 import os
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+torch.backends.cuda.matmul.allow_tf32 = True
 transformers.logging.set_verbosity_error()
 
 
@@ -34,7 +36,8 @@ class RNATorsionBERTHelper:
     def __init__(self):
         self.model_name = "sayby/rna_torsionbert"
         self.tokenizer = AutoTokenizer.from_pretrained(
-            self.model_name, trust_remote_code=True
+            self.model_name,
+            trust_remote_code=True,
         )
         self.params_tokenizer = {
             "return_tensors": "pt",
@@ -42,12 +45,39 @@ class RNATorsionBERTHelper:
             "max_length": 512,
             "truncation": True,
         }
-        self.model = AutoModel.from_pretrained(self.model_name, trust_remote_code=True)
+        self.model = AutoModel.from_pretrained(
+            self.model_name,
+            trust_remote_code=True,
+            torch_dtype=torch.float32,
+        )
+
+    def predict_batch(self, sequences: List[str]):
+        """
+        Do the prediction for multiple sequences
+        """
+        sequences_tok = [
+            self.convert_raw_sequence_to_k_mers(sequence) for sequence in sequences
+        ]
+        inputs = self.tokenizer(sequences_tok, **self.params_tokenizer)
+        with torch.no_grad():
+            outputs = self.model(inputs)["logits"]
+        outputs = [
+            self.convert_sin_cos_to_angles(
+                output.cpu().detach().numpy()[np.newaxis, ...], in_ids[np.newaxis, ...]
+            )
+            for output, in_ids in zip(outputs, inputs["input_ids"])
+        ]
+        output_angles = [
+            self.convert_logits_to_dict(output[0, :], in_ids.cpu().detach().numpy())
+            for output, in_ids in zip(outputs, inputs["input_ids"])
+        ]
+        return output_angles
 
     def predict(self, sequence: str):
         sequence_tok = self.convert_raw_sequence_to_k_mers(sequence)
         inputs = self.tokenizer(sequence_tok, **self.params_tokenizer)
-        outputs = self.model(inputs)["logits"]
+        with torch.no_grad():
+            outputs = self.model(inputs)["logits"]
         outputs = self.convert_sin_cos_to_angles(
             outputs.cpu().detach().numpy(), inputs["input_ids"]
         )
