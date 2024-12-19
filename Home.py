@@ -23,7 +23,7 @@ def home_page():
         "quality assessment metrics and scoring functions depending on what they want to evaluate."
     )
     right_col.markdown(
-        " This website is free and open to all users and there is no login requirement."
+        "**This website is free and open to all users and there is no login requirement.**"
     )
     st.markdown("---")
     st.markdown(
@@ -639,7 +639,7 @@ set to 13Å and 24Å for short- and long-range interactions, respectively.
 
         ##### Guillaume Postic
 
-        - Email: guillaume.postic@univ-evry.fr
+        - Email: guillaume.postic@universite-paris-saclay.fr
 
         ##### Sahar Ghannay
 

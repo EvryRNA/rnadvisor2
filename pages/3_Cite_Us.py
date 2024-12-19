@@ -17,7 +17,6 @@ def cite_us():
         """
         ### Contact Us
         Please feel free to contact us with any issues, comments, or questions.
-        - **Email**: [guillaume.postic@universite-paris-saclay.fr](guillaume.postic@universite-paris-saclay.fr)
         - **Email**: [fariza.tahi@univ-evry.fr](fariza.tahi@univ-evry.fr)
         """
     )
@@ -26,7 +25,7 @@ def cite_us():
         """
         ### Authors
         - **Clément Bernard**: [Clément Bernard](clement.bernard@univ-evry.fr)
-        - **Guillaume Postic**: [Guillaume Postic](guillaume.postic@univ-evry.fr)
+        - **Guillaume Postic**: [Guillaume Postic](guillaume.postic@universite-paris-saclay.fr)
         - **Sahar Ghannay**: [Sahar Ghannay](sahar.ghannay@universite-paris-saclay.fr)
         - **Fariza Tahi**: [Fariza Tahi](fariza.tahi@univ-evry.fr)
         """)

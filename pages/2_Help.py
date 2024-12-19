@@ -24,8 +24,7 @@ def help_page():
     st.markdown(
         """
         ### Help
-        If you have any questions or need help with the *RNAdvisor* tool, please contact us at 
-        [guillaume.postic@universite-paris-saclay.fr](guillaume.postic@universite-paris-saclay.fr) or [fariza.tahi@univ-evry.fr](fariza.tahi@univ-evry.fr).
+        If you have any questions or need help with the *RNAdvisor* tool, please contact us at [fariza.tahi@univ-evry.fr](fariza.tahi@univ-evry.fr).
         """
     )
     st.markdown("---")
