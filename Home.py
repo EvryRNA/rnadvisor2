@@ -129,7 +129,7 @@ It is close to the INF score discussed above while being a continuous function o
         st.markdown(
             r"""
         As the normalisation parameters are specific to proteins, 
-        an adaptation of the TM-score was introduced in \cite{rna-align}, with the following  formula: 
+        an adaptation of the TM-score was introduced, with the following  formula: 
     $$
     \text{TM-score}_{RNA} = \frac{1}{L} \sum_{i=1}^{L_{ali}} \frac{1}{1+(\frac {d_i}{d_0})^2}
     $$
@@ -145,7 +145,7 @@ It is close to the INF score discussed above while being a continuous function o
         r"""
         #### GDT-TS
         GDT-TS stands for the Global Distance Test Total Score and is derived from a method of alignment 
-        of longest continuous sequences, LGA(Local-Global Alignment) \cite{lga}. 
+        of longest continuous sequences, LGA(Local-Global Alignment). 
         The Global Distance Test (GDT) is a metric that estimates the percent of residues that can 
         fit under a distance cutoff using different superimpositions. 
         """
@@ -171,7 +171,7 @@ while getting the rough topology of the molecule usually give a score around 0.5
         #### CAD-score
         The CAD-score stands for the Contact-area Difference score and measures the structural similarity in 
         a contact-area difference-based function. 
-        This metric is based on the work of \cite{cad}, which introduced a residue-residue 
+        This metric is based on a residue-residue 
         contact area score to compare a structure to a reference. 
         """
     )
