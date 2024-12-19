@@ -122,6 +122,15 @@ def get_update_rna_puzzles():
     st.session_state["casp_choice"] = None
     update_example()
 
+def clean_files():
+    all_keys = ["native_to_show", "preds_to_show", "show_align", "show_results"]
+    for c_key in all_keys:
+        st.session_state[c_key] = False
+    st.session_state.native_path = None
+    st.session_state.pred_paths = None
+    st.session_state.example_challenge = None
+    os.system(f"rm -r {pred_dir}/* {aligned_path} {log_path} {time_path} {out_path}")
+
 
 def add_side_bar_examples():
     st.sidebar.write("# Load examples")
@@ -251,11 +260,39 @@ def get_metrics_scoring():
     return metrics, scoring_functions, normalisation
 
 
+def get_condition_to_submit(native_path, pred_paths):
+    condition = True
+    if (st.session_state.method == "Scoring functions" and pred_paths is None):
+        st.toast(
+            "Could not compute scoring functions because there are no valid predicted structures.",
+            icon="🚨")
+        condition = False
+    elif (st.session_state.method == "Scoring functions" and native_path is not None):
+        st.toast(
+            "Could not compute scoring functions because there is a native structure uploaded.",
+            icon="🚨")
+        condition = False
+    elif (st.session_state.method == "Metrics" and (native_path is None or pred_paths is None)):
+        st.toast(
+            "Could not compute metrics because the native or predicted structures are not valid. ",
+            icon="🚨")
+        condition = False
+    st.session_state["show_results"] = condition
+    st.session_state["show_align"] = condition
+    return condition
+
+
 def get_submit_button():
     native_path, pred_paths = st.session_state.native_path, st.session_state.pred_paths
-    submit = st.button(label="Submit",
+    col1, col2, _ = st.columns([1, 1, 5])
+    submit = col1.button(label="Submit",
                        on_click=lambda: update_keys(["show_results", "show_align"]))
     if submit:
+        clean_button = col2.button("Clear", on_click=lambda: clean_files())
+        # Check if the native and predicted structures are uploaded
+        condition = get_condition_to_submit(native_path, pred_paths)
+        if not condition:
+            return None
         with st.spinner("Computing metrics ... (may take up to a minute)"):
             if isinstance(native_path, str) and os.path.exists(native_path) and pred_paths is not None:
                 align_structures(native_path, pred_paths, aligned_path)
@@ -317,8 +354,11 @@ if condition_to_show and st.session_state.show_results:
         mapping_titles = {"TB-MCQ per position": "_tb_mcq.csv",
                           "TB-MCQ per angle": "_tb_mcq_per_angle.csv"}
         if is_only_scoring:
-            fn_to_show = [BarHelperScoring, AnglesHelper, AnglesPerModel]
-            titles = ["Bar plot", "TB-MCQ per position", "TB-MCQ per angle"]
+            fn_to_show = [BarHelperScoring]
+            titles = ["Bar plot"]
+            if "TB-MCQ" in df.columns:
+                fn_to_show.extend([AnglesHelper, AnglesPerModel])
+                titles.extend(["TB-MCQ per position", "TB-MCQ per angle"])
         else:
             fn_to_show = [BarHelper, PolarHelper]
             titles = ["Bar plot", "Polar plot"]

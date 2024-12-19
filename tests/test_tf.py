@@ -1,21 +1,11 @@
 import transformers
+import torch
 from transformers import AutoModel, AutoTokenizer
 import numpy as np
 import pandas as pd
 from typing import Optional, Dict
 import os
-os.environ["TOKENIZERS_PARALLELISM"]="false"
+from src_st.tb_helper.tb_mcq import TBMCQ
 
-model_name = "sayby/rna_torsionBERT"
-tokenizer = AutoTokenizer.from_pretrained(
-    model_name, trust_remote_code=True
-)
-params_tokenizer = {
-    "return_tensors": "pt",
-    "padding": "max_length",
-    "max_length": 512,
-    "truncation": True,
-}
-model = AutoModel.from_pretrained(
-    model_name, trust_remote_code=True
-)
+tb_mcq = TBMCQ()
+tb_mcq.compute_tb_mcq("tests/R1107.pdb")

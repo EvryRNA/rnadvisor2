@@ -17,6 +17,7 @@ def cite_us():
         """
         ### Contact Us
         Please feel free to contact us with any issues, comments, or questions.
+        - **Email**: [guillaume.postic@universite-paris-saclay.fr](guillaume.postic@universite-paris-saclay.fr)
         - **Email**: [fariza.tahi@univ-evry.fr](fariza.tahi@univ-evry.fr)
         """
     )
