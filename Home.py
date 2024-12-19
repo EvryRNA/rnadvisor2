@@ -6,13 +6,13 @@ def home_page():
         page_title="RNAdvisor 2",
         layout="wide",
     )
-    st.write("# RNAdvisor")
+    st.write("# RNAdvisor 2")
     left_col, right_col = st.columns(2)
     left_col.image("img/drawio/rnadvisor.gif")
 
     right_col.markdown("### A tool to compute RNA 3D structure quality metrics")
     right_col.markdown(
-        "**RNAdvisor** is a wrapper tool that gathers available metrics and scoring "
+        "**RNAdvisor 2** is a wrapper tool that gathers available metrics and scoring "
         "functions to assess RNA 3D structures quality."
     )
     right_col.markdown(

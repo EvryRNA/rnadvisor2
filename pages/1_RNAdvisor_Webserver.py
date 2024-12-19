@@ -353,15 +353,20 @@ if condition_to_show and st.session_state.show_results:
         st.dataframe(df)
         mapping_titles = {"TB-MCQ per position": "_tb_mcq.csv",
                           "TB-MCQ per angle": "_tb_mcq_per_angle.csv"}
-        if is_only_scoring:
+        if is_only_scoring and len(df)>1:
             fn_to_show = [BarHelperScoring]
             titles = ["Bar plot"]
             if "TB-MCQ" in df.columns:
                 fn_to_show.extend([AnglesHelper, AnglesPerModel])
                 titles.extend(["TB-MCQ per position", "TB-MCQ per angle"])
         else:
-            fn_to_show = [BarHelper, PolarHelper]
-            titles = ["Bar plot", "Polar plot"]
+            fn_to_show, titles = [], []
+            if len(df)>1:
+                fn_to_show.append(BarHelper)
+                titles.append("Bar plot")
+            if not is_only_scoring:
+                fn_to_show.append(PolarHelper)
+                titles.append("Polar plot")
         for index, fn in enumerate(fn_to_show):
             if titles[index] in mapping_titles:
                 c_out_path = out_path.replace(".csv", mapping_titles[titles[index]])

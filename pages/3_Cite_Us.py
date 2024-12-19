@@ -6,10 +6,10 @@ def cite_us():
         """
         ### Cite Us
         If you use *RNAdvisor* in your research, please cite the following paper:
-        - **Bernard C, Postic G, Ghannay S, Tahi F. 
+        - [Bernard C, Postic G, Ghannay S, Tahi F. 
         RNAdvisor: a comprehensive benchmarking tool for the measure and prediction of RNA 
         structural model quality. Brief Bioinform. 2024 Jan 22;25(2):bbae064. 
-        doi: 10.1093/bib/bbae064. PMID: 38436560; PMCID: PMC10939302.**.
+        doi: 10.1093/bib/bbae064. PMID: 38436560; PMCID: PMC10939302](https://academic.oup.com/bib/article/25/2/bbae064/7618078)
         """
     )
     st.markdown("---")
