@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 import streamlit as st
 import pandas as pd
@@ -33,11 +33,15 @@ def run_rnadvisor(
     hp_params,
 ):
     str_metrics = ",".join(metrics) if len(metrics) > 0 else ""
+    to_compute_tb = (
+        "TB-MCQ" in scoring_functions if scoring_functions is not None else False
+    )
     if scoring_functions is not None:
         scoring_functions = [
             score_fn for score_fn in scoring_functions if score_fn not in metrics
         ]
         str_metrics += "," + ",".join(scoring_functions)
+        str_metrics = str_metrics.replace("TB-MCQ", "")  # TB-MCQ is computed separately
     if native_path is None and pred_path is not None:
         native_path = os.path.join(pred_path, os.listdir(pred_path)[0])
     rnadvisor_args["pred_path"] = pred_path
@@ -49,9 +53,9 @@ def run_rnadvisor(
     rnadvisor_args["hp_params"] = hp_params
     score_cli = ScoreCLI(**rnadvisor_args)
     score_cli.compute_scores()
-    if "TB-MCQ" in str_metrics:
+    if to_compute_tb:
         out_path_mcq = out_path.replace(".csv", "_tb_mcq.csv")
-        compute_tb_mcq_per_sequence(pred_path, out_path_mcq)
+        compute_tb_mcq_per_sequence(pred_path, out_path_mcq, time_path)
     clean_df(out_path, scoring_functions)
 
 
@@ -86,11 +90,25 @@ def convert_preds_cif_to_pdb(pred_paths: List[str]) -> List[str]:
     return new_preds
 
 
-def compute_tb_mcq_per_sequence(pred_path: str, out_path: str):
+def add_tb_mcq_to_df(tb_mcq: Dict, in_path: str):
+    """
+    Add the TB-MCQ to the dataframe
+    """
+    df = pd.read_csv(in_path, index_col=0)
+    df_tb = pd.DataFrame({"TB-MCQ": tb_mcq.values()}, index=tb_mcq.keys())
+    # Clean names
+    if "normalized_" in df.index[0]:
+        df_tb.index = df_tb.index.map(lambda x: f"normalized_{x}")
+    new_df = pd.concat([df, df_tb], axis=1)
+    new_df.to_csv(in_path)
+
+
+def compute_tb_mcq_per_sequence(pred_path: str, out_path: str, time_path):
     """
     Compute the TB-MCQ per sequence
     :param pred_path: path to a predicted structure
     :param out_path: path where to save the predicted error
+    :param time_path: path where to save the time
     """
     if os.path.isdir(pred_path):
         pred_files = [
@@ -101,6 +119,8 @@ def compute_tb_mcq_per_sequence(pred_path: str, out_path: str):
     elif os.path.isfile(pred_path):
         pred_files = pred_path
     pred_files = convert_preds_cif_to_pdb(pred_files)
-    df, df_angle = TBMCQ.get_tb_mcq_all(pred_files)
+    df, df_angle, tb_mcq, c_time = TBMCQ.get_tb_mcq_all(pred_files)
     df.to_csv(out_path, index=False)
     df_angle.to_csv(out_path.replace(".csv", "_per_angle.csv"))
+    add_tb_mcq_to_df(tb_mcq, out_path.replace("_tb_mcq", ""))
+    add_tb_mcq_to_df(c_time, time_path)
