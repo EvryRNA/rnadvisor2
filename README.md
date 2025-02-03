@@ -2,6 +2,8 @@
 
 This repository is the source code for RNAdvisor2: web interface of RNAdvisor. 
 
+![](img/rnadvisor2_screen.gif)
+
 
 ## Installation
 
